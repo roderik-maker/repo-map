@@ -4,10 +4,6 @@ Turn any git repo into one interactive HTML page: a foldable file tree sized by 
 
 A [Claude Code](https://claude.com/claude-code) skill, but the generator is a standalone Python script (stdlib only), so it works without Claude too.
 
-> **Demo:** _video or GIF goes here_
->
-> <!-- Replace this block with the recording, e.g. ![demo](docs/demo.gif) or a YouTube link. -->
-
 ## What you get
 
 - **Tree:** folders fold open; every row shows lines and characters with bars (share of repo or of folder), split by language.
