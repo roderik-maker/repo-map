@@ -1,0 +1,660 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#f5f6f7; --surface:#ffffff; --line:#e4e7ea; --line-2:#cdd2d8;
+  --ink:#16191d; --ink-2:#4b535c; --ink-3:#737c86;
+  --hover:#f0f3f6; --track:#edf0f3; --tm-0:#e6e9ed; --tm-1:#d8dce1;
+  --accent:#2a78d6; --flash:rgba(42,120,214,.2); --up:#c2410c; --down:#0f7a55;
+  --tip-bg:#16191d; --tip-ink:#f5f6f7; --tip-mut:#a9b1ba;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s0:#9ba3ac;
+  --on-s1:#ffffff; --on-s2:#1d0d05; --on-s3:#04140d; --on-s4:#1a1200; --on-s5:#240812; --on-s6:#ffffff; --on-s7:#ffffff; --on-s0:#14171a;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111315; --surface:#181b1f; --line:#262a30; --line-2:#363b42;
+    --ink:#eef1f4; --ink-2:#b4bcc5; --ink-3:#8a939d;
+    --hover:#1f2328; --track:#23272d; --tm-0:#22262b; --tm-1:#2d3137;
+    --accent:#3987e5; --flash:rgba(57,135,229,.25); --up:#f08a5d; --down:#4cc9a0;
+    --tip-bg:#eef1f4; --tip-ink:#111315; --tip-mut:#4b535c;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s0:#6b737c;
+    --on-s1:#06101d; --on-s2:#1a0a03; --on-s3:#03130c; --on-s4:#161000; --on-s5:#1f0610; --on-s6:#ffffff; --on-s7:#0d0a24; --on-s0:#ffffff;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111315; --surface:#181b1f; --line:#262a30; --line-2:#363b42;
+  --ink:#eef1f4; --ink-2:#b4bcc5; --ink-3:#8a939d;
+  --hover:#1f2328; --track:#23272d; --tm-0:#22262b; --tm-1:#2d3137;
+  --accent:#3987e5; --flash:rgba(57,135,229,.25); --up:#f08a5d; --down:#4cc9a0;
+  --tip-bg:#eef1f4; --tip-ink:#111315; --tip-mut:#4b535c;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s0:#6b737c;
+  --on-s1:#06101d; --on-s2:#1a0a03; --on-s3:#03130c; --on-s4:#161000; --on-s5:#1f0610; --on-s6:#ffffff; --on-s7:#0d0a24; --on-s0:#ffffff;
+}
+
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+.wrap{max-width:1480px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:24px 48px}
+
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;margin-bottom:20px}
+h1{font:600 22px/1.2 var(--sans);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--ink-3);font:12.5px/1.4 var(--mono)}
+.sub code{font:inherit;color:var(--ink-2)}
+.totals{display:flex;flex-wrap:wrap;gap:8px 32px;margin:0}
+.totals dt{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:6px}
+.totals dd{margin:0;font:500 20px/1 var(--mono);font-variant-numeric:tabular-nums}
+
+.controls{display:flex;flex-wrap:wrap;gap:12px 28px;margin-bottom:16px}
+.seg{border:0;margin:0;padding:0;min-width:0}
+.seg legend{padding:0;margin-bottom:6px;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)}
+.opts{display:inline-flex;flex-wrap:wrap;gap:2px;padding:2px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface)}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts label{padding:4px 11px;border-radius:5px;font-size:13px;color:var(--ink-2);cursor:pointer;user-select:none}
+.opts label:hover{background:var(--hover);color:var(--ink)}
+.opts input:checked + label{background:var(--ink);color:var(--surface)}
+.opts input:focus-visible + label{outline:2px solid var(--accent);outline-offset:1px}
+
+.layout{display:grid;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.panel-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;padding:12px 14px 0}
+.panel-h h2{margin:0;font:600 14px/1.3 var(--sans)}
+.hint{color:var(--ink-3);font-size:12.5px}
+
+.legend{list-style:none;margin:0;padding:10px 14px 12px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px}
+.legend li{display:flex;align-items:center;gap:6px}
+.legend i,.tip-sw{width:10px;height:10px;border-radius:2px;flex:none}
+.lg-val{font:12px var(--mono);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.lg-pct{font:12px var(--mono);color:var(--ink-3)}
+
+#tm{position:relative;margin:0 12px 12px;height:clamp(260px,62vw,420px)}
+.tm-dir,.tm-file{position:absolute;box-sizing:border-box;overflow:hidden;cursor:pointer}
+.tm-dir{background:var(--tm-0);border-radius:3px}
+.tm-dir.d1{background:var(--tm-1)}
+.tm-lab{display:block;padding:0 5px;font:500 10.5px/16px var(--mono);color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm-file{border-radius:2px;padding:3px 5px;font:10.5px/1.3 var(--mono)}
+.tm-file span,.tm-file small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm-file small{font-size:10px;opacity:.78}
+#tm-focus{position:absolute;pointer-events:none;border:2px solid var(--ink);border-radius:3px;box-shadow:0 0 0 1px var(--surface)}
+
+.tree{--mcol:minmax(150px,230px);overflow:clip}
+.tree .panel-h{padding-bottom:12px}
+.btns{display:flex;gap:6px}
+.btn{font:500 12px/1 var(--sans);border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);border-radius:5px;padding:6px 10px;cursor:pointer}
+.btn:hover{background:var(--hover);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.thead,.row{display:grid;grid-template-columns:minmax(0,1fr) var(--mcol) var(--mcol);column-gap:20px;align-items:center;padding-inline:14px}
+.thead{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;height:30px;background:var(--surface);border-block:1px solid var(--line);font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)}
+.thead span+span{padding-left:calc(9ch + 10px)}
+.row{min-height:34px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--hover)}
+.row.flash{animation:flash 1.8s ease-out}
+@keyframes flash{from{background:var(--flash)}to{background:transparent}}
+.name{display:flex;align-items:center;gap:6px;min-width:0;height:34px;margin:0;padding:0 0 0 calc(var(--d)*18px);border:0;background:none;color:inherit;font:inherit;text-align:left}
+button.name{width:100%;cursor:pointer}
+button.name:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+.chev{width:16px;height:16px;flex:none;color:var(--ink-3);transition:transform .15s}
+.row[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.ico{width:16px;height:16px;flex:none;color:var(--ink-3)}
+.label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dir .label{font-weight:500}
+.cnt{flex:none;margin-left:4px;color:var(--ink-3);font:12px var(--mono)}
+.cell{display:flex;align-items:center;min-width:0}
+.cell .name{flex:1 1 auto}
+.hide{flex:none;display:grid;place-items:center;width:26px;height:26px;margin-left:4px;padding:0;border:0;border-radius:5px;background:none;color:var(--ink-3);cursor:pointer;opacity:0}
+.row:hover .hide,.hide:focus-visible{opacity:1}
+.hide:hover{background:var(--track);color:var(--ink)}
+.hide:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.hide svg{width:15px;height:15px}
+@media (hover:none){ .hide{opacity:1} }
+.hidden-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:-4px 0 16px;font-size:12.5px;color:var(--ink-3)}
+.chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 7px 3px 10px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);color:var(--ink-2);font:12px/1.3 var(--mono);cursor:pointer}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip:hover{color:var(--ink);border-color:var(--ink-3)}
+.chip svg{width:12px;height:12px;flex:none}
+.link{border:0;background:none;padding:2px 4px;color:var(--accent);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.chip:focus-visible,.link:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.metric{display:grid;grid-template-columns:9ch minmax(0,1fr);gap:10px;align-items:center}
+.num{font:13px var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.row:not(.dir) .num{color:var(--ink-2)}
+.track{display:block;height:8px;background:var(--track);border-radius:0 4px 4px 0}
+.fill{display:flex;gap:2px;height:100%;overflow:hidden;border-radius:0 4px 4px 0}
+.fill i{flex:1 1 0;min-width:1px}
+.empty{margin:0;padding:24px 14px;color:var(--ink-3)}
+.foot{margin:16px 0 0;color:var(--ink-3);font-size:12.5px;max-width:80ch}
+
+#tip{position:fixed;z-index:10;max-width:320px;pointer-events:none;background:var(--tip-bg);color:var(--tip-ink);border-radius:6px;padding:8px 10px;font:12px/1.5 var(--sans);box-shadow:0 6px 24px rgba(0,0,0,.2)}
+#tip b{display:block;margin-bottom:2px;font:500 12px/1.4 var(--mono);word-break:break-all}
+#tip .mut{color:var(--tip-mut)}
+#tip ul{list-style:none;margin:6px 0 0;padding:6px 0 0;border-top:1px solid color-mix(in srgb,var(--tip-ink) 20%,transparent);display:grid;gap:2px}
+#tip li{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:center}
+#tip li span{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.dlt{margin-left:6px;font:500 11px/1 var(--mono);font-variant-numeric:tabular-nums}
+.dlt.up{color:var(--up)}
+.dlt.dn{color:var(--down)}
+.totals dd .dlt{display:block;margin:5px 0 0;min-height:11px}
+.num .dlt{display:block;margin:2px 0 0;font-size:10.5px}
+.tag{flex:none;margin-left:4px;padding:1px 6px;border:1px solid var(--line-2);border-radius:999px;color:var(--ink-3);font:500 10px/1.3 var(--mono)}
+.row.gone .label{color:var(--ink-3);text-decoration:line-through}
+div.name:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+
+.timeline{margin-bottom:16px;padding-bottom:12px}
+.tl-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px 0}
+.tl-h h2{margin:0;font:600 14px/1.3 var(--sans)}
+.tl-label{flex:1 1 260px;min-width:0;color:var(--ink-2);font:12.5px/1.4 var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl-label code{font:inherit;color:var(--ink)}
+.tl-pos{color:var(--ink-3);font:12px var(--mono)}
+#tl{position:relative;margin:10px 14px 0;height:76px;touch-action:pan-y;cursor:ew-resize;user-select:none;border-radius:4px}
+#tl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#tl svg{display:block;width:100%;height:100%;overflow:visible}
+#tl text{font:10.5px var(--mono);fill:var(--ink-3)}
+.tl-ticks{display:flex;justify-content:space-between;margin:4px 14px 0;color:var(--ink-3);font:11px var(--mono)}
+.tl-line{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;margin:8px 14px 0;font-size:12.5px;color:var(--ink-3)}
+.tl-line:empty{display:none}
+.tl-line .link{font:12px var(--mono)}
+.tl-hint{margin:8px 14px 0;color:var(--ink-3);font-size:12px}
+.spark{display:block;margin-top:8px;color:var(--tip-ink)}
+
+#cm{position:fixed;z-index:12;min-width:230px;max-width:340px;padding:4px;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.22)}
+#cm button{display:block;width:100%;padding:7px 10px;border:0;border-radius:5px;background:none;color:var(--ink);font:13px var(--sans);text-align:left;cursor:pointer}
+#cm button:hover{background:var(--hover)}
+#cm button:focus-visible{outline:none;background:var(--hover);box-shadow:inset 0 0 0 2px var(--accent)}
+#cm hr{margin:4px 6px;border:0;border-top:1px solid var(--line)}
+#cm .cm-t{padding:6px 10px 4px;color:var(--ink-3);font:11px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#toast{position:fixed;left:50%;bottom:20px;z-index:13;transform:translateX(-50%);max-width:min(92vw,560px);padding:9px 14px;border-radius:8px;background:var(--tip-bg);color:var(--tip-ink);font:13px/1.4 var(--sans);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+#toast.err{background:#b42318;color:#fff}
+
+@media (min-width:1100px){
+  .layout{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:start}
+  .tree{grid-column:1;grid-row:1}
+  .map{grid-column:2;grid-row:1;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+  #tm{height:clamp(320px,calc(100vh - 170px),780px)}
+}
+@media (max-width:640px){
+  .tree{--mcol:80px}
+  .thead,.row{column-gap:10px;padding-inline:10px}
+  .thead span+span{padding-left:0}
+  .metric{grid-template-columns:1fr;gap:3px}
+  .num{font-size:12px}
+  .cnt{display:none}
+  .name{padding-left:calc(var(--d)*12px)}
+}
+@media (prefers-reduced-motion: reduce){ .chev{transition:none} .row.flash{animation:none;background:var(--flash)} }
+</style>
+
+<main class="wrap">
+  <header class="head">
+    <div>
+      <h1 id="title">Repo map</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <dl class="totals">
+      <div><dt>Files</dt><dd><span id="t-files">0</span><small class="dlt" id="d-files"></small></dd></div>
+      <div><dt>Lines</dt><dd><span id="t-lines">0</span><small class="dlt" id="d-lines"></small></dd></div>
+      <div><dt>Characters</dt><dd><span id="t-chars">0</span><small class="dlt" id="d-chars"></small></dd></div>
+    </dl>
+  </header>
+
+  <section class="panel timeline" id="timeline" aria-labelledby="tl-title">
+    <div class="tl-h">
+      <h2 id="tl-title">History</h2>
+      <button class="btn" type="button" id="play">Play</button>
+      <span class="tl-label" id="tl-label"></span>
+      <span class="tl-pos" id="tl-pos"></span>
+    </div>
+    <div id="tl" role="slider" tabindex="0" aria-label="Position in history"></div>
+    <div class="tl-ticks" id="tl-ticks" aria-hidden="true"></div>
+    <div class="tl-line" id="tl-cmp"></div>
+    <div class="tl-line" id="tl-jumps"></div>
+    <p class="tl-hint">Drag the chart, or use ← → keys, to move through time. Shift-click a point to compare against it. Hover any file, folder or block to see its own history.</p>
+  </section>
+
+  <div class="controls">
+    <fieldset class="seg" id="md-filter"><legend>Markdown files</legend><div class="opts">
+      <input type="radio" name="md" id="md-all" value="all"><label for="md-all">Include</label>
+      <input type="radio" name="md" id="md-ex" value="ex"><label for="md-ex">Exclude</label>
+      <input type="radio" name="md" id="md-only" value="only"><label for="md-only">Only .md</label>
+    </div></fieldset>
+    <fieldset class="seg"><legend>Size by</legend><div class="opts">
+      <input type="radio" name="metric" id="m-l" value="l"><label for="m-l">Lines</label>
+      <input type="radio" name="metric" id="m-c" value="c"><label for="m-c">Characters</label>
+    </div></fieldset>
+    <fieldset class="seg"><legend>Bar length</legend><div class="opts">
+      <input type="radio" name="scale" id="s-repo" value="repo"><label for="s-repo">Share of repo</label>
+      <input type="radio" name="scale" id="s-dir" value="dir"><label for="s-dir">Share of folder</label>
+    </div></fieldset>
+    <fieldset class="seg" id="cmp-set"><legend>Show change vs</legend><div class="opts">
+      <input type="radio" name="cmp" id="c-off" value="off"><label for="c-off">Off</label>
+      <input type="radio" name="cmp" id="c-prev" value="prev"><label for="c-prev">Previous</label>
+      <input type="radio" name="cmp" id="c-first" value="first"><label for="c-first">First</label>
+      <input type="radio" name="cmp" id="c-pick" value="pick"><label for="c-pick">Picked point</label>
+    </div></fieldset>
+    <fieldset class="seg"><legend>Sort</legend><div class="opts">
+      <input type="radio" name="sort" id="o-size" value="size"><label for="o-size">Largest first</label>
+      <input type="radio" name="sort" id="o-name" value="name"><label for="o-name">Name</label>
+      <input type="radio" name="sort" id="o-chg" value="chg"><label for="o-chg">Biggest change</label>
+    </div></fieldset>
+  </div>
+  <div class="hidden-bar" id="hidden-bar" hidden></div>
+
+  <div class="layout">
+    <section class="panel map" aria-labelledby="map-h">
+      <div class="panel-h"><h2 id="map-h">Where the lines sit</h2><span class="hint">Click a block to find it in the tree · Alt/⌥-click to hide it · right-click to copy its path</span></div>
+      <ul class="legend" id="legend"></ul>
+      <div id="tm"></div>
+    </section>
+
+    <section class="panel tree" aria-labelledby="tree-h">
+      <div class="panel-h">
+        <h2 id="tree-h">Files</h2>
+        <span class="hint">Right-click a file or folder to copy its path or an open command</span>
+        <div class="btns"><button class="btn" type="button" id="expand">Expand all</button><button class="btn" type="button" id="collapse">Collapse all</button></div>
+      </div>
+      <div class="thead" aria-hidden="true"><span>Name</span><span>Lines</span><span>Characters</span></div>
+      <div id="rows" role="tree" aria-labelledby="tree-h"></div>
+    </section>
+  </div>
+
+  <p class="foot">Counted from committed git objects, so uncommitted work in progress is not included. Lines are newline-terminated lines, as <code>wc -l</code> counts them, plus a final line with no newline. Characters are Unicode code points, newlines included. Bar segments and treemap colours show the file type. History is sampled along the main (first-parent) line of commits; a file that was renamed or moved counts as one removed and one added. Copied paths and commands use the checkout path on this machine, so they point at the working copy, not the commit shown.</p>
+</main>
+<div id="tip" role="tooltip" hidden></div>
+<div id="cm" role="menu" hidden></div>
+<div id="toast" role="status" hidden></div>
+
+<script>
+const DATA = __DATA__;
+const META = __META__;
+// file type = index into META.types; slot colours follow that order, "Other" is grey
+const TYPES = META.types.map((label, i) => [i, label]);
+const TNAME = META.types;
+const COLOR = META.types.map((label, i) => label === "Other" ? "s0" : "s" + (i + 1));
+const MD = META.types.indexOf("Markdown");
+const MNAME = {l:"lines", c:"characters"};
+const NS = META.snaps.length;
+// DATA steps [snapshot, lines, chars] -> one value per snapshot; lines -1 = file absent
+const FILES = DATA.map(([p, t, ch]) => {
+  const L = new Int32Array(NS).fill(-1), C = new Int32Array(NS);
+  ch.forEach(([i, l, c], k) => { const end = k + 1 < ch.length ? ch[k + 1][0] : NS; L.fill(l, i, end); C.fill(c, i, end); });
+  return {p, t, L, C};
+});
+const $ = s => document.querySelector(s);
+const fmt = n => n.toLocaleString("en-US");
+const fmtD = n => (n > 0 ? "+" : n < 0 ? "−" : "") + fmt(Math.abs(n));
+const fmtDate = iso => new Date(iso).toLocaleDateString("en-GB", {dateStyle:"medium"});
+const pct = (a, b) => { const v = b ? a / b * 100 : 0; return v.toFixed(v < 10 ? 1 : 0) + "%"; };
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ICON = {
+  chev: '<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  dir:  '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.75 2.5h4.1l1.5 1.5h6.9c.41 0 .75.34.75.75v8c0 .41-.34.75-.75.75H1.75a.75.75 0 0 1-.75-.75v-9.5c0-.41.34-.75.75-.75z" fill="currentColor"/></svg>',
+  file: t => `<svg class="ico" viewBox="0 0 16 16" aria-hidden="true" style="color:var(--${COLOR[t]})"><path d="M3.75 1.5h5.5L13 5.25v8.5c0 .41-.34.75-.75.75h-8.5a.75.75 0 0 1-.75-.75V2.25c0-.41.34-.75.75-.75z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M9 1.75V5.5h3.75" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>`,
+  eye:  '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.75 8S4 3.75 8 3.75 14.25 8 14.25 8 12 12.25 8 12.25 1.75 8 1.75 8z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="1.9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.75 13.25l10.5-10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  x:    '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'
+};
+
+const KEY = "repo-map:" + META.repo;
+// generated and lock files start hidden: they dwarf the hand-written code
+const S = Object.assign({md:"all", metric:"l", scale:"repo", sort:"size", cmp:"off", open:[], hidden:META.hide}, read());
+if (S.cmp === "pick" || NS < 2) S.cmp = "off";
+if (S.sort === "chg" && S.cmp === "off") S.sort = "size";
+const open = new Set(S.open), hidden = new Set(S.hidden);
+let at = NS - 1, from = null, ci = null, playing = null;   // snapshot shown, picked compare point, compare snapshot in use
+function read(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({...S, open:[...open], hidden:[...hidden]})); } catch {} }
+function isHidden(p){ for (const h of hidden) if (p === h || p.startsWith(h + "/")) return true; return false; }
+const pass = f => !(MD >= 0 && (S.md === "ex" && f.t === MD || S.md === "only" && f.t !== MD) || isHidden(f.p));
+function cmpIdx(){
+  if (S.cmp === "prev") return at > 0 ? at - 1 : null;
+  if (S.cmp === "first") return at > 0 ? 0 : null;
+  if (S.cmp === "pick") return from !== null && from !== at ? from : null;
+  return null;
+}
+const dl = (n, m) => ci === null ? 0 : n[m] - n[m === "l" ? "pl" : "pc"];
+const cmpLabel = () => `${fmtDate(META.snaps[ci][1])} · ${META.snaps[ci][0]}`;
+
+let root, byPath;
+function build(){
+  ci = cmpIdx();
+  const mk = (name, path, parent) => ({name, path, parent, dir:true, kids:new Map(), l:0, c:0, pl:0, pc:0, n:0, pn:0, mix:{}});
+  root = mk(META.repo, "", null); byPath = new Map();
+  for (const f of FILES){
+    const cur = f.L[at] >= 0, was = ci !== null && f.L[ci] >= 0;
+    if (!(cur || was) || !pass(f)) continue;
+    const l = cur ? f.L[at] : 0, c = cur ? f.C[at] : 0, pl = was ? f.L[ci] : 0, pc = was ? f.C[ci] : 0;
+    const parts = f.p.split("/"); let node = root; tally(root, l, c, pl, pc, f.t, cur, was);
+    for (let i = 0; i < parts.length - 1; i++){
+      let d = node.kids.get(parts[i]);
+      if (!d){ d = mk(parts[i], parts.slice(0, i + 1).join("/"), node); node.kids.set(parts[i], d); byPath.set(d.path, d); }
+      node = d; tally(node, l, c, pl, pc, f.t, cur, was);
+    }
+    const leaf = {name:parts.at(-1), path:f.p, parent:node, dir:false, l, c, pl, pc, n:cur ? 1 : 0, pn:was ? 1 : 0, t:f.t, gone:!cur, fresh:ci !== null && cur && !was, mix:{[f.t]:{l, c}}};
+    node.kids.set(leaf.name, leaf); byPath.set(f.p, leaf);
+  }
+}
+function tally(n, l, c, pl, pc, t, cur, was){
+  n.l += l; n.c += c; n.pl += pl; n.pc += pc; n.n += cur; n.pn += was;
+  if (cur){ const m = n.mix[t] ??= {l:0, c:0}; m.l += l; m.c += c; }
+}
+function bySize(n){ const m = S.metric; return [...n.kids.values()].sort((x, y) => y[m] - x[m] || x.name.localeCompare(y.name)); }
+function sorted(n){
+  const m = S.metric, by = S.sort === "chg" && ci === null ? "size" : S.sort;
+  if (by === "size") return bySize(n);
+  if (by === "chg") return [...n.kids.values()].sort((x, y) => Math.abs(dl(y, m)) - Math.abs(dl(x, m)) || y[m] - x[m] || x.name.localeCompare(y.name));
+  return [...n.kids.values()].sort((x, y) => y.dir - x.dir || x.name.localeCompare(y.name));
+}
+
+// size over the snapshots for a path ("" = whole repo), honouring the filters; cached until they change
+const cache = new Map();
+function series(p, m){
+  const key = p + "\0" + m; let s = cache.get(key);
+  if (s) return s;
+  s = new Float64Array(NS);
+  for (const f of FILES){
+    if (p && f.p !== p && !f.p.startsWith(p + "/") || !pass(f)) continue;
+    const a = m === "l" ? f.L : f.C;
+    for (let i = 0; i < NS; i++) if (f.L[i] >= 0) s[i] += a[i];
+  }
+  cache.set(key, s); return s;
+}
+function line(s, w, h, max, top, bot){
+  const y = v => (h - bot - v / max * (h - top - bot)).toFixed(1);
+  return Array.from(s, (v, i) => (i ? "L" : "M") + (NS > 1 ? i / (NS - 1) * w : 0).toFixed(1) + "," + y(v)).join("");
+}
+function spark(s, w, h){
+  const max = Math.max(1, ...s), d = line(s, w, h, max, 2, 2), x = i => (NS > 1 ? i / (NS - 1) * w : 0).toFixed(1);
+  const mark = (i, solid) => `<line x1="${x(i)}" x2="${x(i)}" y1="0" y2="${h}" stroke="currentColor" stroke-opacity="${solid ? .9 : .5}"${solid ? "" : ' stroke-dasharray="3 2"'}/>`;
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}L${w},${h}L0,${h}Z" fill="currentColor" fill-opacity=".18"/><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>${mark(at, true)}${ci !== null ? mark(ci, false) : ""}</svg>`;
+}
+
+function bar(n, m){
+  const den = S.scale === "repo" ? root[m] : n.parent[m], d = dl(n, m);
+  const w = den ? n[m] / den * 100 : 0;
+  const segs = TYPES.filter(([t]) => n.mix[t]?.[m]).map(([t]) => `<i style="flex-grow:${n.mix[t][m]};background:var(--${COLOR[t]})"></i>`).join("");
+  return `<div class="metric"><span class="num">${fmt(n[m])}${d ? `<small class="dlt ${d > 0 ? "up" : "dn"}">${fmtD(d)}</small>` : ""}</span><span class="track"><span class="fill" style="width:${w}%;${n[m] ? "min-width:3px" : ""}">${segs}</span></span></div>`;
+}
+
+function rows(){
+  const out = [];
+  const hideBtn = k => `<button class="hide" type="button" aria-label="Hide ${esc(k.path)}${k.dir ? "/" : ""}" title="Hide from totals, bars and map">${ICON.eye}</button>`;
+  (function walk(n, d){
+    for (const k of sorted(n)){
+      if (k.dir){
+        const on = open.has(k.path);
+        out.push(`<div class="row dir" role="treeitem" aria-level="${d + 1}" aria-expanded="${on}" data-p="${esc(k.path)}"><div class="cell"><button class="name" type="button" style="--d:${d}">${ICON.chev}${ICON.dir}<span class="label">${esc(k.name)}</span><span class="cnt">${k.n} ${k.n === 1 ? "file" : "files"}</span></button>${hideBtn(k)}</div>${bar(k, "l")}${bar(k, "c")}</div>`);
+        if (on) walk(k, d + 1);
+      } else {
+        const tag = k.gone ? '<span class="tag">deleted</span>' : k.fresh ? '<span class="tag">new</span>' : "";
+        out.push(`<div class="row${k.gone ? " gone" : ""}" role="treeitem" aria-level="${d + 1}" data-p="${esc(k.path)}"><div class="cell"><div class="name" tabindex="0" style="--d:${d}"><span class="chev"></span>${ICON.file(k.t)}<span class="label">${esc(k.name)}</span>${tag}</div>${hideBtn(k)}</div>${bar(k, "l")}${bar(k, "c")}</div>`);
+      }
+    }
+  })(root, 0);
+  $("#rows").innerHTML = out.join("") || '<p class="empty">No files match this filter.</p>';
+}
+
+function squarify(items, m, x, y, w, h){
+  const total = items.reduce((s, k) => s + k[m], 0), out = [];
+  if (!total || w <= 0 || h <= 0) return out;
+  let rest = items.map(k => ({node:k, a:k[m] * w * h / total}));
+  const worst = (row, s) => { const sum = row.reduce((a, r) => a + r.a, 0), mx = row[0].a, mn = row.at(-1).a; return Math.max(s * s * mx / (sum * sum), sum * sum / (s * s * mn)); };
+  while (rest.length && w > 0 && h > 0){
+    const s = Math.min(w, h); let i = 1;
+    while (i < rest.length && worst(rest.slice(0, i + 1), s) <= worst(rest.slice(0, i), s)) i++;
+    const row = rest.slice(0, i), ra = row.reduce((a, r) => a + r.a, 0);
+    if (w >= h){ const cw = ra / h; let cy = y; for (const r of row){ const rh = r.a / cw; out.push({node:r.node, x, y:cy, w:cw, h:rh}); cy += rh; } x += cw; w -= cw; }
+    else       { const rh = ra / w; let cx = x; for (const r of row){ const rw = r.a / rh; out.push({node:r.node, x:cx, y, w:rw, h:rh}); cx += rw; } y += rh; h -= rh; }
+    rest = rest.slice(i);
+  }
+  return out;
+}
+
+function treemap(){
+  const box = $("#tm"), m = S.metric, cells = [];
+  for (const n of byPath.values()) n.rect = null;
+  (function lay(n, x, y, w, h, depth){
+    for (const r of squarify(bySize(n).filter(k => k[m] > 0), m, x, y, w, h)){
+      const k = r.node, cx = r.x + 1, cy = r.y + 1, cw = r.w - 2, ch = r.h - 2;
+      if (cw <= 0 || ch <= 0) continue;
+      k.rect = {x:cx, y:cy, w:cw, h:ch};
+      const pos = `left:${cx}px;top:${cy}px;width:${cw}px;height:${ch}px`;
+      if (k.dir){
+        const hdr = cw > 48 && ch > 36 ? 16 : 3;
+        cells.push(`<div class="tm-dir d${depth % 2}" data-p="${esc(k.path)}" style="${pos}">${hdr > 3 ? `<span class="tm-lab">${esc(k.name)}/</span>` : ""}</div>`);
+        lay(k, cx + 2, cy + hdr, cw - 4, ch - hdr - 2, depth + 1);
+      } else {
+        const lab = cw > 40 && ch > 16 ? `<span>${esc(k.name)}</span>${ch > 32 ? `<small>${fmt(k[m])}</small>` : ""}` : "";
+        cells.push(`<div class="tm-file" data-p="${esc(k.path)}" style="${pos};background:var(--${COLOR[k.t]});color:var(--on-${COLOR[k.t]})">${lab}</div>`);
+      }
+    }
+  })(root, 0, 0, box.clientWidth, box.clientHeight, 0);
+  box.innerHTML = cells.join("") + '<div id="tm-focus" hidden></div>';
+}
+
+function setD(sel, d){ const e = $(sel); e.textContent = d ? fmtD(d) : ""; e.className = "dlt " + (d > 0 ? "up" : "dn"); }
+function summary(){
+  const m = S.metric;
+  $("#t-files").textContent = fmt(root.n);
+  $("#t-lines").textContent = fmt(root.l);
+  $("#t-chars").textContent = fmt(root.c);
+  setD("#d-files", ci === null ? 0 : root.n - root.pn); setD("#d-lines", dl(root, "l")); setD("#d-chars", dl(root, "c"));
+  $("#map-h").textContent = `Where the ${MNAME[m]} sit`;
+  $("#legend").innerHTML = TYPES.filter(([t]) => root.mix[t]).map(([t, name]) =>
+    `<li><i style="background:var(--${COLOR[t]})"></i><span>${name}</span><span class="lg-val">${fmt(root.mix[t][m])}</span><span class="lg-pct">${pct(root.mix[t][m], root[m])}</span></li>`).join("");
+}
+
+function hiddenBar(){
+  const bar = $("#hidden-bar"), hs = [...hidden].sort();
+  bar.hidden = !hs.length;
+  bar.innerHTML = !hs.length ? "" : '<span>Hidden from totals, bars and map:</span>'
+    + hs.map(h => `<button class="chip" type="button" data-unhide="${esc(h)}" title="${META.why[h] ? esc(META.why[h]) + " · " : ""}Show again" aria-label="Show ${esc(h)} again"><span>${esc(h)}${FILES.some(f => f.p === h) ? "" : "/"}</span>${ICON.x}</button>`).join("")
+    + (hs.length > 1 ? '<button class="link" type="button" data-unhide="*">Show all</button>' : "");
+}
+
+function timeline(){
+  if (NS < 2) return;
+  const m = S.metric, s = series("", m), W = tl.clientWidth, H = tl.clientHeight;
+  if (!W) return;
+  const max = Math.max(1, ...s), d = line(s, W, H, max, 14, 3), x = i => (i / (NS - 1) * W).toFixed(1);
+  const y = (H - 3 - s[at] / max * (H - 17)).toFixed(1);
+  tl.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><path d="${d}L${W},${H}L0,${H}Z" fill="var(--tm-1)"/><path d="${d}" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-linejoin="round"/><text x="0" y="9">${fmt(max)} ${MNAME[m]}</text>`
+    + (ci !== null ? `<line x1="${x(ci)}" x2="${x(ci)}" y1="0" y2="${H}" stroke="var(--ink-2)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x(ci)}" y="21" text-anchor="middle">from</text>` : "")
+    + `<line x1="${x(at)}" x2="${x(at)}" y1="0" y2="${H}" stroke="var(--accent)" stroke-width="2"/><circle cx="${x(at)}" cy="${y}" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></svg>`;
+  const sn = META.snaps[at], label = `${fmtDate(sn[1])} · ${sn[0]}${sn[2] ? " · " + sn[2] : ""}`;
+  $("#tl-label").innerHTML = `${esc(fmtDate(sn[1]))} · <code>${esc(sn[0])}</code>${sn[2] ? " · " + esc(sn[2]) : ""}`;
+  $("#tl-label").title = label;
+  $("#tl-pos").textContent = `${at + 1} / ${NS}${at === NS - 1 ? " · latest" : ""}`;
+  tl.setAttribute("aria-valuemin", 1); tl.setAttribute("aria-valuemax", NS); tl.setAttribute("aria-valuenow", at + 1); tl.setAttribute("aria-valuetext", label);
+  $("#tl-cmp").textContent = ci !== null ? `Changes shown against ${cmpLabel()}` : "";
+  const ups = []; for (let i = 1; i < NS; i++) if (s[i] > s[i - 1]) ups.push([i, s[i] - s[i - 1]]);
+  const top = ups.sort((a, b) => b[1] - a[1]).slice(0, 3).filter(([, v]) => v >= max * 0.02);
+  $("#tl-jumps").innerHTML = top.length ? "<span>Biggest jumps</span>" + top.map(([i, v]) => `<button class="link" type="button" data-jump="${i}">${esc(fmtDate(META.snaps[i][1]))} ${fmtD(v)}</button>`).join("") : "";
+}
+function ticks(){
+  if (NS < 2) return;
+  const n = Math.min(5, NS);
+  $("#tl-ticks").innerHTML = Array.from({length:n}, (_, k) => `<span>${esc(fmtDate(META.snaps[Math.round(k * (NS - 1) / (n - 1))][1]))}</span>`).join("");
+}
+
+const tip = $("#tip");
+function placeTip(h, e){
+  tip.innerHTML = h; tip.hidden = false;
+  const r = tip.getBoundingClientRect(), pad = 14;
+  let x = e.clientX + pad, y = e.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - pad;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+function showTip(n, e){
+  const m = S.metric, up = n.parent !== root ? ` · ${pct(n[m], n.parent[m])} of ${esc(n.parent.name)}/` : "";
+  let h = `<b>${esc(n.path)}${n.dir ? "/" : ""}</b><div>${fmt(n.l)} lines · ${fmt(n.c)} characters</div><div class="mut">${pct(n[m], root[m])} of repo ${MNAME[m]}${up}</div>`;
+  if (ci !== null && (dl(n, "l") || dl(n, "c"))) h += `<div class="mut">${fmtD(dl(n, "l"))} lines, ${fmtD(dl(n, "c"))} characters vs ${esc(cmpLabel())}</div>`;
+  h += n.dir ? `<ul>${TYPES.filter(([t]) => n.mix[t]).map(([t, name]) => `<li><i class="tip-sw" style="background:var(--${COLOR[t]})"></i>${name}<span>${fmt(n.mix[t][m])}</span></li>`).join("")}</ul>`
+             : `<div class="mut">${TNAME[n.t]}</div>`;
+  if (NS > 1) h += spark(series(n.path, m), 220, 44) + `<div class="mut">${MNAME[m]} over time</div>`;
+  placeTip(h, e);
+}
+function focusNode(n){
+  const f = $("#tm-focus"), r = n?.rect;
+  if (!f) return;
+  if (!r){ f.hidden = true; return; }
+  Object.assign(f.style, {left:r.x + "px", top:r.y + "px", width:r.w + "px", height:r.h + "px"}); f.hidden = false;
+}
+function hide(){ tip.hidden = true; focusNode(null); }
+
+function reveal(p){
+  const n = byPath.get(p); if (!n) return;
+  for (let a = n.dir ? n : n.parent; a && a !== root; a = a.parent) open.add(a.path);
+  save(); rows();
+  const row = document.querySelector(`.row[data-p="${CSS.escape(p)}"]`); if (!row) return;
+  row.scrollIntoView({block:"center", behavior:matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  row.classList.remove("flash"); void row.offsetWidth; row.classList.add("flash");
+}
+
+// open in an editor: custom URL schemes work where the viewer lets them through; otherwise copy fallbacks
+const cm = $("#cm"), ROOT = META.root || "";
+const shq = s => "'" + s.replace(/'/g, "'\\''") + "'";
+let toastT, acts = [];
+function toast(msg, err){
+  const t = $("#toast"); t.textContent = msg; t.className = err ? "err" : ""; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, err ? 7000 : 2600);
+}
+async function copy(text, msg){
+  let done = false;
+  try { await navigator.clipboard.writeText(text); done = true; } catch {}
+  if (!done){
+    const t = document.createElement("textarea"); t.value = text; t.style.cssText = "position:fixed;opacity:0";
+    document.body.append(t); t.select();
+    try { done = document.execCommand("copy"); } catch {}
+    t.remove();
+  }
+  if (msg) done ? toast(msg) : toast("Copy is blocked in this viewer: " + text, true);
+  return done;
+}
+function openMenu(p, x, y){
+  const n = byPath.get(p); if (!n || !ROOT) return;
+  const abs = ROOT + "/" + p, dir = n.dir;
+  const items = [
+    {label:"Copy path", run:() => copy(abs, "Path copied")},
+    {label:"Copy command: open in VS Code", run:() => copy(`open -a "Visual Studio Code" ${shq(abs)}`, "Command copied: paste it in a terminal")},
+    {label:"Copy command: show in Finder", run:() => copy(`open ${dir ? "" : "-R "}${shq(abs)}`, "Finder command copied: paste it in a terminal")},
+    ...(dir ? [] : [{label:"Copy command: open in text editor", run:() => copy(`open -t ${shq(abs)}`, "Command copied: paste it in a terminal")}]),
+  ];
+  let k = 0; acts = items.filter(Boolean).map(i => i.run);
+  cm.innerHTML = `<div class="cm-t" title="${esc(p)}">${esc(p)}${dir ? "/" : ""}</div>` + items.map(i => i ? `<button type="button" role="menuitem" data-i="${k++}">${esc(i.label)}</button>` : "<hr>").join("");
+  cm.hidden = false; hide();
+  const r = cm.getBoundingClientRect();
+  cm.style.left = Math.max(8, Math.min(x, innerWidth - r.width - 8)) + "px";
+  cm.style.top = Math.max(8, Math.min(y, innerHeight - r.height - 8)) + "px";
+  cm.querySelector("button").focus();
+}
+const closeMenu = () => { cm.hidden = true; };
+document.addEventListener("pointerdown", e => { if (!cm.hidden && !cm.contains(e.target)) closeMenu(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+addEventListener("scroll", closeMenu, true); addEventListener("resize", closeMenu);
+cm.addEventListener("click", e => { const b = e.target.closest("button"); if (b){ closeMenu(); acts[+b.dataset.i](); } });
+cm.addEventListener("keydown", e => {
+  const bs = [...cm.querySelectorAll("button")], i = bs.indexOf(document.activeElement);
+  if (e.key === "ArrowDown") bs[(i + 1) % bs.length].focus(); else if (e.key === "ArrowUp") bs[(i - 1 + bs.length) % bs.length].focus(); else return;
+  e.preventDefault();
+});
+
+const tm = $("#tm"), rowsEl = $("#rows"), tl = $("#tl");
+tm.addEventListener("pointermove", e => { const c = e.target.closest("[data-p]"); if (!c) return hide(); const n = byPath.get(c.dataset.p); focusNode(n); showTip(n, e); });
+tm.addEventListener("pointerleave", hide);
+tm.addEventListener("click", e => {
+  const c = e.target.closest("[data-p]"); if (!c) return;
+  hide();
+  if (e.altKey){ hidden.add(c.dataset.p); save(); render(); } else reveal(c.dataset.p);
+});
+tm.addEventListener("contextmenu", e => { const c = e.target.closest("[data-p]"); if (!c) return; e.preventDefault(); openMenu(c.dataset.p, e.clientX, e.clientY); });
+$("#hidden-bar").addEventListener("click", e => {
+  const b = e.target.closest("[data-unhide]"); if (!b) return;
+  b.dataset.unhide === "*" ? hidden.clear() : hidden.delete(b.dataset.unhide); save(); render();
+});
+rowsEl.addEventListener("pointermove", e => {
+  const row = e.target.closest(".row"); if (!row) return hide();
+  const n = byPath.get(row.dataset.p); focusNode(n);
+  if (e.target.closest(".metric")) showTip(n, e); else tip.hidden = true;
+});
+rowsEl.addEventListener("pointerleave", hide);
+rowsEl.addEventListener("click", e => {
+  const h = e.target.closest("button.hide");
+  if (h){ hidden.add(h.closest(".row").dataset.p); save(); hide(); render(); return; }
+  const b = e.target.closest("button.name"); if (!b) return;
+  const p = b.closest(".row").dataset.p;
+  open.has(p) ? open.delete(p) : open.add(p); save(); rows();
+  document.querySelector(`.row[data-p="${CSS.escape(p)}"] button`)?.focus();
+});
+rowsEl.addEventListener("contextmenu", e => { const row = e.target.closest(".row"); if (!row) return; e.preventDefault(); openMenu(row.dataset.p, e.clientX, e.clientY); });
+rowsEl.addEventListener("keydown", e => {
+  const el = e.target.closest("div.name"); if (!el || e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault(); const r = el.getBoundingClientRect(); openMenu(el.closest(".row").dataset.p, r.left + 24, r.bottom);
+});
+$("#expand").addEventListener("click", () => { for (const n of byPath.values()) if (n.dir) open.add(n.path); save(); rows(); });
+$("#collapse").addEventListener("click", () => { open.clear(); save(); rows(); });
+for (const key of ["md", "metric", "scale", "sort", "cmp"])
+  document.querySelectorAll(`input[name="${key}"]`).forEach(i => {
+    i.checked = i.value === S[key];
+    i.addEventListener("change", () => { S[key] = i.value; save(); render(); });
+  });
+
+// timeline: drag or arrow keys move through snapshots, shift-click picks a compare point
+function seek(i){ i = Math.max(0, Math.min(NS - 1, i)); if (i !== at){ at = i; renderAt(); } }
+function stop(){ clearInterval(playing); playing = null; $("#play").textContent = "Play"; }
+$("#play").addEventListener("click", () => {
+  if (playing) return stop();
+  if (at >= NS - 1){ at = 0; renderAt(); }
+  $("#play").textContent = "Pause";
+  playing = setInterval(() => { at++; renderAt(); if (at >= NS - 1) stop(); }, 110);
+});
+const snapAt = e => { const r = tl.getBoundingClientRect(); return Math.max(0, Math.min(NS - 1, Math.round((e.clientX - r.left) / r.width * (NS - 1)))); };
+let scrub = false;
+tl.addEventListener("pointerdown", e => {
+  tl.setPointerCapture(e.pointerId); tip.hidden = true; stop();
+  if (e.shiftKey){ from = snapAt(e); S.cmp = "pick"; save(); renderAt(); return; }
+  scrub = true; seek(snapAt(e));
+});
+tl.addEventListener("pointermove", e => {
+  const i = snapAt(e);
+  if (scrub) return seek(i);
+  const sn = META.snaps[i];
+  placeTip(`<b>${esc(fmtDate(sn[1]))}</b><div class="mut">${esc(sn[0])}${sn[2] ? " · " + esc(sn[2]) : ""}</div><div>${fmt(series("", S.metric)[i])} ${MNAME[S.metric]}</div>`, e);
+});
+tl.addEventListener("pointerup", () => { scrub = false; });
+tl.addEventListener("pointercancel", () => { scrub = false; });
+tl.addEventListener("pointerleave", () => { tip.hidden = true; });
+tl.addEventListener("keydown", e => {
+  const step = {ArrowLeft:-1, ArrowRight:1, PageDown:-10, PageUp:10}[e.key];
+  stop();
+  if (step) seek(at + step); else if (e.key === "Home") seek(0); else if (e.key === "End") seek(NS - 1); else return;
+  e.preventDefault();
+});
+$("#tl-jumps").addEventListener("click", e => {
+  const b = e.target.closest("[data-jump]"); if (!b) return;
+  stop(); at = +b.dataset.jump; S.cmp = "prev"; save(); renderAt();
+});
+
+function syncControls(){
+  const on = cmpIdx() !== null, chg = $("#o-chg");
+  chg.hidden = document.querySelector('label[for="o-chg"]').hidden = !on;
+  if (!on && S.sort === "chg") S.sort = "size";
+  $("#c-pick").disabled = from === null;
+  for (const key of ["sort", "cmp"]) document.querySelectorAll(`input[name="${key}"]`).forEach(i => { i.checked = i.value === S[key]; });
+}
+function renderAt(){ syncControls(); build(); summary(); hiddenBar(); treemap(); rows(); timeline(); }
+function render(){ cache.clear(); renderAt(); }
+$("#md-filter").hidden = MD < 0;
+$("#timeline").hidden = $("#cmp-set").hidden = NS < 2;
+const when = new Date(META.date).toLocaleString("en-GB", {dateStyle:"medium", timeStyle:"short"});
+$("#title").textContent = `${META.repo} repo map`;
+$("#sub").innerHTML = `${esc(META.ref)} · <code>${esc(META.sha)}</code> · committed ${esc(when)}`;
+ticks(); render();
+new ResizeObserver(() => treemap()).observe(tm);
+new ResizeObserver(() => timeline()).observe(tl);
+</script>
